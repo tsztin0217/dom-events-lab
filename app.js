@@ -16,50 +16,59 @@ As a user, I want to be able to clear all operations and start from 0.
 const displayEl = document.querySelector('.display');
 const calculator = document.querySelector('#calculator'); // for event delegation
 const buttons = document.querySelectorAll('.button');
+
 /*-------------------------------- Variables --------------------------------*/
-let num1;
-let num2;
-let operator;
-let result;
-/*------------------------ Cached Element References ------------------------*/
+let num1 = ''; // Store first number as a string
+let num2 = ''; // Store second number as a string
+let operator = ''; // Store the operator (+, -, *, /)
+let result; // Store the result of calculation
 
 /*----------------------------- Event Listeners -----------------------------*/
 calculator.addEventListener('click', (event) => {
-    const clickedEl = event.target;
+    const clickedEl = event.target; // Whatever we clicked is the event target
 
+    // If clicked element is a number
     if (clickedEl.classList.contains('number')) {
-        num1 += clickedEl.innerText;
-        displayEl.innerText = num1;
+        if (operator === '') { // If haven't clicked on operator yet
+            num1 += clickedEl.innerText; // Then that number would be the first number
+        } else {
+            num2 += clickedEl.innerText; // Otherwise it's second number (after operator)
+        }
+        displayEl.innerText = num1 + operator + num2; // Update display
     }
 
+    // If clicked element is an operator
     if (clickedEl.classList.contains('operator')) {
-        if (clickedEl.innerText === 'C') {
+        if (clickedEl.innerText === 'C') { // If pressed C, reset everything
             displayEl.innerText = '';
             num1 = '';
             num2 = '';
             operator = '';
-            displayEl.innerText = '';
-        }  else {
-            if (num1 === null) {
-                num1 = num2;
-                num2 = '';
+        } else {
+            // If an operator is clicked after a number is entered, store it
+            if (num1 !== '') { // If num1 not empty (meaning it has input inside it)
+                operator = clickedEl.innerText;
+                displayEl.innerText = num1 + operator; // Update display with operator
             }
         }
-        operator = clickedEl.innerText;
     }
 
+    // If clicked element is the equals sign
     if (clickedEl.innerText === '=') {
-        result = calculate(Number(num1), operator, Number(num2));
-        num1 = result;
+        if (true) {
+            result = calculate(Number(num1), operator, Number(num2)); // Perform calculation
+            displayEl.innerText = ''; // Reset display after one calculation
+            num1 = '';
+            num2 = '';
+            operator = '';
+        }
         displayEl.innerText = result;
-        operator = null;
     }
-})
+});
 
-
-
-function calculate (num1, operator, num2) {
-    switch(operator) {
+/*-------------------------------- Functions --------------------------------*/
+function calculate(num1, operator, num2) {
+    switch (operator) {
         case '+':
             return num1 + num2;
         case '-':
@@ -68,12 +77,7 @@ function calculate (num1, operator, num2) {
             return num1 * num2;
         case '/':
             return num1 / num2;
-        default: return num2;
-
+        default:
+            return num2;
     }
-
 }
-
-
-/*-------------------------------- Functions --------------------------------*/
-// function 
