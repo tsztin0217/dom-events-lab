@@ -44,33 +44,26 @@ calculator.addEventListener('click', (event) => {
             num1 = '';
             num2 = '';
             operator = '';
-        } else {
-            // If an operator is clicked after a number is entered, store it
-            if (num1 !== '') { // If num1 not empty (meaning it has input inside it)
-                operator = clickedEl.innerText;
-                displayEl.innerText = num1 + operator; // Update display with operator
-            } else {
-                operator = clickedEl.innerText;
-                displayEl.innerText = num1 + num2 + operator
-            }
+        } else { // if clicked operator isn't 'C'
+                operator = clickedEl.innerText; // Then save the clicked operator into operator variable
+                displayEl.innerText = num1 + num2 + operator // And display all the clicked inputs
         }
     }
 
     // If clicked element is the equals sign
     if (clickedEl.innerText === '=') {
-        if (true) {
-            result = calculate(Number(num1), operator, Number(num2)); // Perform calculation
+            result = calculate(num1, operator, num2); // Perform calculation
             displayEl.innerText = result; // Displays the result
             num1 = result; // Saves the answer so can continue with the calculation
-            num2 = ''; 
-            operator = '';
-        }
-        displayEl.innerText = result;
+            num2 = '';  // Clears the second number to allow for next input for calculation
+            operator = ''; // Clears the operator to allow for next input for calculation
     }
 });
 
 /*-------------------------------- Functions --------------------------------*/
 function calculate(num1, operator, num2) {
+    num1 = Number(num1); // turn from string to number variable
+    num2 = Number(num2);
     switch (operator) {
         case '+':
             return num1 + num2;
@@ -81,7 +74,6 @@ function calculate(num1, operator, num2) {
         case '/':
             if (num2 === 0) return 'Error'; // Return Error if divided by 0
             return num1 / num2;
-        default:
-            return num2;
     }
 }
+// Currently unable to do times negative (for example: -5 * -2 will turn into -5 -2 because clicking - will replace *)
