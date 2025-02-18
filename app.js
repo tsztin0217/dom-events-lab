@@ -49,6 +49,9 @@ calculator.addEventListener('click', (event) => {
             if (num1 !== '') { // If num1 not empty (meaning it has input inside it)
                 operator = clickedEl.innerText;
                 displayEl.innerText = num1 + operator; // Update display with operator
+            } else {
+                operator = clickedEl.innerText;
+                displayEl.innerText = num1 + num2 + operator
             }
         }
     }
@@ -57,9 +60,9 @@ calculator.addEventListener('click', (event) => {
     if (clickedEl.innerText === '=') {
         if (true) {
             result = calculate(Number(num1), operator, Number(num2)); // Perform calculation
-            displayEl.innerText = ''; // Reset display after one calculation
+            displayEl.innerText = result; // Displays the result
             num1 = result; // Saves the answer so can continue with the calculation
-            num2 = '';
+            num2 = ''; 
             operator = '';
         }
         displayEl.innerText = result;
