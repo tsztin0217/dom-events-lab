@@ -58,7 +58,7 @@ calculator.addEventListener('click', (event) => {
         if (true) {
             result = calculate(Number(num1), operator, Number(num2)); // Perform calculation
             displayEl.innerText = ''; // Reset display after one calculation
-            num1 = '';
+            num1 = result; // Saves the answer so can continue with the calculation
             num2 = '';
             operator = '';
         }
