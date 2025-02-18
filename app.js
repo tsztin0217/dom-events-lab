@@ -14,28 +14,51 @@ As a user, I want to be able to clear all operations and start from 0.
 
 /*-------------------------------- Constants --------------------------------*/
 const displayEl = document.querySelector('.display');
-const calculator = document.querySelector('#calculator');
+const calculator = document.querySelector('#calculator'); // for event delegation
 const buttons = document.querySelectorAll('.button');
 /*-------------------------------- Variables --------------------------------*/
+let num1;
+let num2;
+let operator;
+let result;
 /*------------------------ Cached Element References ------------------------*/
 
 /*----------------------------- Event Listeners -----------------------------*/
-buttons.forEach((button) => {
-    button.addEventListener('click', (event) => {
-      // This log is for testing purposes to verify we're getting the correct value
-      // console.log(event.target);
-      // output:
-      // <div class="button number">8</div>..etc
+calculator.addEventListener('click', (event) => {
+    const clickedEl = event.target;
 
-      // console.log(event.target.classList)
-      const clickedEl = event.target;
-      if (clickedEl.classList.contains('number')) {
-        displayEl.innerText += clickedEl.innerText;
-      }
-    });
-  });
+    if (clickedEl.classList.contains('number')) {
+        num1 += clickedEl.innerText;
+        displayEl.innerText = num1;
+    }
 
-function calculate (num1, num2, operator) {
+    if (clickedEl.classList.contains('operator')) {
+        if (clickedEl.innerText === 'C') {
+            displayEl.innerText = '';
+            num1 = '';
+            num2 = '';
+            operator = '';
+            displayEl.innerText = '';
+        }  else {
+            if (num1 === null) {
+                num1 = num2;
+                num2 = '';
+            }
+        }
+        operator = clickedEl.innerText;
+    }
+
+    if (clickedEl.innerText === '=') {
+        result = calculate(Number(num1), operator, Number(num2));
+        num1 = result;
+        displayEl.innerText = result;
+        operator = null;
+    }
+})
+
+
+
+function calculate (num1, operator, num2) {
     switch(operator) {
         case '+':
             return num1 + num2;
@@ -45,52 +68,12 @@ function calculate (num1, num2, operator) {
             return num1 * num2;
         case '/':
             return num1 / num2;
+        default: return num2;
 
     }
 
 }
 
-// calculator.addEventListener('click', (event) => {
-//     if (event.target.classList.contains('operator')) {
-//         if (event.target.innerText === 'C') {
-//             displayEl.innerText = '';
-            
-//         }
-//     // if (event.target.classList.contains('button')) {
-//     //     displayEl.innerText = displayEl.innerText += event.target.innerText;
-//     // }
-    
-//         calculate();
-// }
-// }
-// )
-
-
-// calculator.addEventListener('click', (event) => {
-//     // This log is for testing purposes to verify we're getting the correct value
-//     // You have to click a button to see this log
-//     // console.log(event.target.innerText);
-  
-//     // // Example
-//     if (event.target.classList.contains('button')) {
-//         displayEl.innerText = displayEl.innerText += event.target.innerText;
-//         // console.log(event.target.innerText)
-//         // console.log(displayEl.innerText)
-//       // Do something with a number
-//     }
-//     console.dir(event.target)
-
-//     // if (event.target.classList.contains('operator')) {
-//     //     if (event.target.innerText === '*') {
-
-//     //     }
-//     // }
-//     // // Example
-//     // if (event.target.innerText === '*') {
-//     //   // Do something with this operator
-//     }
-//   )
-  
 
 /*-------------------------------- Functions --------------------------------*/
 // function 
